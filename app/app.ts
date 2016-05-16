@@ -5,6 +5,7 @@ import {GettingStartedPage} from './pages/getting-started/getting-started';
 import {ListPage} from './pages/list/list';
 import {DetailsPage} from './pages/details/details';
 import {UniteMenu} from './unite-framework/unitemenu';
+import {UniteItem} from './unite-framework/uniteitem';
 import {AddmenuPage} from './pages/addmenu/addmenu';
 import {LoginPage} from './pages/login/login';
 import {AddArticlePage} from './pages/addarticle/addarticle';
@@ -12,7 +13,7 @@ import {AddCatPage} from './pages/addcat/addcat';
 
 @App({
   templateUrl: 'build/app.html',
-  providers: [UniteMenu],
+  providers: [UniteMenu,UniteItem],
   config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
 class MyApp {
@@ -20,8 +21,10 @@ class MyApp {
   pages: any;
   uniteMenu: any;
   local: any;
+  items:any;
+  uniteItem : any;
 
-  constructor(private app: IonicApp, private platform: Platform, uniteMenu: UniteMenu, private events: Events, private zone: NgZone) {
+  constructor(private app: IonicApp,uniteItem: UniteItem,  private platform: Platform, uniteMenu: UniteMenu, private events: Events, private zone: NgZone) {
     this.initializeApp();
     this.uniteMenu = uniteMenu;
     this.uniteMenu.menuMap = {
@@ -44,7 +47,9 @@ class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [];
     this.local = new Storage(SqlStorage);
-
+    this.uniteItem = uniteItem;
+    this.loadData();
+    console.log("In menu ");
   }
 
   initializeApp() {
@@ -93,6 +98,27 @@ class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     let nav = this.app.getComponent('nav');
-    nav.setRoot(this.uniteMenu.menuMap[page.component]);
-  }
+    if(page.id)
+    {
+        nav.setRoot(ListPage, {item: page.id});
+    }else{
+    
+    nav.setRoot(this.uniteMenu.menuMap[page.component]);}
+   }
+  
+  
+  loadData() {
+		console.log("Hi...#");
+		
+         let url = 'http://172.132.45.153/joomla3.4_api/index.php?option=com_api&app=articles&resource=category&format=raw&key=a2d3ca11a77374b296ef06a1e20a9ea4&lang=en';
+        this.uniteItem.getData(url).then((value: any) => {
+		if(value){
+				this.items = value;
+        console.log(this.items);
+			}
+		});
+	}
+  
+
+  
 }

@@ -1,7 +1,6 @@
 import {Injectable, Inject} from 'angular2/core';
-import {Page, Loading, NavController, NavParams, Toast} from 'ionic-angular';
+import {Page, Loading} from 'ionic-angular';
 import {Http, Headers, HTTP_PROVIDERS} from 'angular2/http';
-import {UniteToast} from '../unite-framework/unitetoast';
 import 'rxjs/add/operator/map';
 @Injectable()
 export class UniteItem {
@@ -9,13 +8,26 @@ export class UniteItem {
   http:any;
   loader: any;
   loaderconfig: any;
-  constructor(http: Http, private nav: NavController, navParams: NavParams, private unitetoast: UniteToast) {
+  constructor(http: Http) {
     // If we navigated to this page, we will have an item available as a nav param
-        this.selectedItem = navParams.get('item');
+        // this.selectedItem = navParams.get('item');
 		this.loaderconfig = { content: "Please wait...", dismissOnPageChange: false };
 		this.http = http;
   }
-	postData(posturl, data){
+  
+  getData(url) {
+		return new Promise(resolve => {
+			this.http.get(url)
+				.map(res => res.json())
+				.subscribe(
+				data => {
+					resolve(data);
+				}, err => {
+					resolve('Error');
+				});
+		});
+  }
+  postData(posturl, data){
 		//this.showLoader();
 		let url = posturl;
 		let datatobepost = data;
@@ -41,12 +53,12 @@ export class UniteItem {
 		});
 	}
   showLoader() {
-    this.loader = Loading.create(this.loaderconfig);
-    this.nav.present(this.loader);
+    // this.loader = Loading.create(this.loaderconfig);
+    // this.nav.present(this.loader);
   }
 
   hideLoader() {
-    this.loader.dismiss();
+    // this.loader.dismiss();
   }
 }
 

@@ -10,6 +10,8 @@ export class UniteList {
   baseurl: string;
   http: any;
   search: string;
+  idname:string;
+  id:number;
   limitstart: number;
   limit: number;
   lastUpdated: string;
@@ -27,6 +29,7 @@ export class UniteList {
 		this.limitName = 'limit';
 		this.limitstartName = 'limitstart';
 		this.searchName = 'search';
+		this.idname="id";
 		this.lastUpdatedName = 'last_updated';
 		this.loaderconfig = { content: "Please wait...", dismissOnPageChange: false };
 		this.http = http;
@@ -44,6 +47,9 @@ export class UniteList {
 
 			if (this.search) {
 				callingurl += '&' + this.searchName + '=' + this.search ;
+			}
+			if (this.id) {
+				callingurl += '&' + this.idname + '=' + this.id ;
 			}
 
 			if (this.lastUpdated) {

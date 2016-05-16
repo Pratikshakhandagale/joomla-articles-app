@@ -60,6 +60,7 @@ export class LoginPage {
           	this.data.response = data;
             this.local.set('authkey', this.data.response.auth);
              let nav = this.app.getComponent('nav');
+             console.log("Login success");
 				nav.setRoot(ListPage);
         }, error => {
             console.log("Oooops!");

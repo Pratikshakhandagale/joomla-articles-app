@@ -22,6 +22,8 @@
       <p [hidden]="introtext.valid || submitted == false" danger padding-left>
         Article Name is required
       </p>
+      
+<!--
       <ion-item>
         <ion-label floating primary>Category</ion-label>
         <ion-select [(ngModel)]="addarticle.cat">
@@ -30,7 +32,43 @@
         <ion-option value="30">Category 4</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item>    
+-->
+      
+    
+       <ion-item>
+		    <ion-label floating primary>Category</ion-label>
+			  <ion-select [(ngModel)]="addarticle.cat">
+			 <ion-option *ngFor="#item of items" value="{{item.id}}">{{item.title}}</ion-option>
+			</ion-select>
+       </ion-item>
+
+      <ion-row>
+					<ion-col width-20>
+					<span primary class="input-label">Published</span>
+						</ion-col>
+						<ion-col width-80>
+					 <input [(ngModel)]="addarticle.published" ngControl="published"  #published="ngForm" required type="date">
+					</ion-col>
+				</ion-row>
+      <p [hidden]="published.valid || submitted == false" danger padding-left>
+        Published date is required
+      </p>
+      
+       <ion-row>
+					<ion-col width-20>
+					<span primary class="input-label">Unpublished</span>
+						</ion-col>
+						<ion-col width-80>
+				<input [(ngModel)]="addarticle.unpublished" ngControl="unpublished"  #unpublished="ngForm" required type="date">
+					</ion-col>
+				</ion-row>
+       <p [hidden]="unpublished.valid || submitted == false" danger padding-left>
+        Unpublished date is required
+      </p>
+  
+      
+  <!--   
+     <ion-item>    
         <label class="item item-input">
         <span primary class="input-label">Published</span>
         <input [(ngModel)]="addarticle.published" ngControl="published"  #published="ngForm" required type="date">
@@ -39,8 +77,7 @@
       <p [hidden]="published.valid || submitted == false" danger padding-left>
         Published date is required
       </p>
-      
-      <ion-item>
+       <ion-item>
          <label class="item">
 			 <span primary class="input-label">Unpublished</span>
           <input [(ngModel)]="addarticle.unpublished" ngControl="unpublished"  #unpublished="ngForm" required type="date">
@@ -49,6 +86,9 @@
       <p [hidden]="unpublished.valid || submitted == false" danger padding-left>
         Unpublished date is required
       </p>
+      
+   -->   
+      
       <ion-row responsive-sm>
         <ion-col>
           <button  (click)="postData(addarticleForm)" primary block>Submit</button>

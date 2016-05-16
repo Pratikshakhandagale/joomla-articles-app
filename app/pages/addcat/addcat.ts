@@ -43,7 +43,6 @@ export class AddCatPage {
     addCat(form) {
         this.submitted = true;
         if (form.valid) {
-        console.log("###########");
             this.events.publish('page:added', this.addcat);
             //this.UniteItem.getMenu().then((value) => {
            //     this.getCustomPage(value);

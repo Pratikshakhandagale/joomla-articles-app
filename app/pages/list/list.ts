@@ -26,6 +26,7 @@ export class ListPage {
 	constructor(private nav: NavController, navParams: NavParams, unitelist: UniteList, uniteitem: UniteItem, unitetoast: UniteToast) {
 		// If we navigated to this page, we will have an item available as a nav param
 		this.selectedItem = navParams.get('item');
+		console.log(this.selectedItem);
 		this.items = [];
 		// API Definitions
 		this.unitetoast=unitetoast;
@@ -40,6 +41,9 @@ export class ListPage {
 		this.enablePullToRefresh = true;
 		this.noitem=true;
 		// Loader Config
+		if(this.selectedItem){
+			this.unitelist.id = this.selectedItem;
+		}
 		this.unitelist.loaderconfig.content = 'Hold Tight!';
 		this.loadData(null);
 	}
@@ -59,14 +63,13 @@ export class ListPage {
 					this.unitetoast.toastOptions.message = "Something went wrong!";
 					this.unitetoast.showToast();
 				}else if(value.success && value.success == 'false'){
-				    this.noitem=false;
+				    
 				    this.unitetoast.toastOptions.message = value.message;
 					this.unitetoast.showToast();
 				}
 				}
 			if (value.data) {
 				this.items = this.items.concat(value.data.results);
-				console.log("Loding.......");
 				
 			}
 			if (infiniteScroll) {
@@ -81,8 +84,11 @@ export class ListPage {
 	getItems(searchbar) {
 		//let q = searchbar.value;
 		this.unitelist.limitstart = 0;
-		this.unitelist.search = this.searchQuery;
+		this.unitelist.search = this.searchQuery;		
 		this.items = [];
+		console.log(this.items.length);
+		if(this.items.length >= 0)
+		this.noitem=false;
 		this.loadData(null);
 	}
 	doRefresh(refresher) {
